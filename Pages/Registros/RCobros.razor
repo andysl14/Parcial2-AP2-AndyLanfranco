@@ -1,0 +1,30 @@
+﻿<h3>RCobros</h3>
+@page "/Cobros"
+@page "/Cobros/{CobroId:int}"
+
+@inject IToastService Toast
+
+<EditForm Model="Cobro" OnValidSubmit="Guardar">
+    <DataAnnotationsValidator/>
+
+    <div class="card">
+        <div class="container">
+            <div class="card-header">
+                <h3>Registro de Cobro</h3>
+            </div>
+
+            <div class="card-body">
+                <form>
+                    <div class="form-group form-inline">
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</EditForm>
+
+@code {
+
+}
