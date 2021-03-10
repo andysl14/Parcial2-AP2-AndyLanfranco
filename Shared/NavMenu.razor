@@ -1,5 +1,5 @@
 ﻿<div class="top-row pl-4 navbar navbar-dark">
-    <a class="navbar-brand" href="">Parcial2-AP2-AndyLanfranco</a>
+    <a class="navbar-brand" href="">Andy Lanfranco Parcial 2</a> 
     <button class="navbar-toggler" @onclick="ToggleNavMenu">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -12,23 +12,47 @@
                 <span class="oi oi-home" aria-hidden="true"></span> Home
             </NavLink>
         </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="oi oi-plus" aria-hidden="true"></span> Counter
+
+        <li class="nav-item px-3 dropdown show">
+            <NavLink class="nav-link dropdown-toggle" href="" @onclick="() => expandSubMenu = !expandSubMenu">
+                <span class="oi oi-folder" aria-hidden="true"></span> Registros
             </NavLink>
+
+            @if (expandSubMenu)
+            {
+                <ul class="nav flex-column">
+                    <li class="nav-item px-2">
+                        <NavLink class="nav-link" href="">
+                            <span class=" oi oi-dollar px-2" aria-hidden="true"></span> Registrar Cobros
+                        </NavLink>
+                    </li>
+
+                    <li class="nav-item px-2">
+                        <NavLink class="nav-link" href="">
+                            <span class=" oi oi-person px-2" aria-hidden="true"></span> Registrar Clientes
+                        </NavLink>
+                    </li>
+
+                    <li class="nav-item px-2">
+                        <NavLink class="nav-link" href="">
+                            <span class="oi oi-list px-2" aria-hidden="true"></span> Registrar Ventas
+                        </NavLink>
+                    </li>
+
+                </ul>
+            }
+
         </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="fetchdata">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
-            </NavLink>
-        </li>
+
     </ul>
 </div>
 
 @code {
     private bool collapseNavMenu = true;
+    private bool expandSubMenu;
 
     private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
 
     private void ToggleNavMenu()
     {
