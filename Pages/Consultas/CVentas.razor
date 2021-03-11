@@ -27,23 +27,16 @@
                     <label>Hasta</label>
                     <input type="date" @bind="Hasta" class="form-control" />
                 </div>
-                &nbsp;
-                &nbsp;
-                &nbsp;
-                &nbsp;
-                &nbsp;
-                &nbsp;
-                &nbsp;
-                &nbsp;
-                <div class="form-group">
+               
+                <div class="form-group ml-5">
                     <label>Filtro</label>
                     <select class="form-control" @bind="Filtro">
                         <option value="0">Todo</option>
                         <option value="1">Venta ID</option>
                     </select>
                 </div>
-                &nbsp;
-                <div class="form-group">
+                
+                <div class="form-group ml-1">
                     <label>Criterio</label>
                     <div class="input-group">
                         <input type="text" @bind="Criterio" class="form-control">
@@ -54,7 +47,7 @@
                 </div>
             </div>
 
-            <div class="table-responsive text-nowrap" style="position: relative; height:200px; overflow: auto; display: block;">
+            <div class="table-responsive text-nowrap" style="position: relative; height:auto; overflow: auto; display: block;">
                 <table class="table table-striped">
                     <thead class="thead-light">
                         <tr>

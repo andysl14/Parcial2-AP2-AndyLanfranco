@@ -41,13 +41,14 @@
                         </div>
                     </div>
 
+
                     <div class="form-group">
                         <label>Cliente ID</label>
-                        <select @bind="Cobro.ClienteId" class="form-control" @onblur="ObtenerVentasPendientes">
-                            <option value="0" disabled selected>Seleccione un cliente</option>
+                        <select value="@Cobro.ClienteId" class="form-control" @onchange="ObtenerVentasPendientes">
+                            <option value="0"disabled selected>Seleccione un cliente</option>
                             @foreach (var item in lista)
                             {
-                                <option value="@item.ClienteId">@item.Nombres</option>
+                                <option value="@item.ClienteId" >@item.Nombres  </option>
                             }
                         </select>
                     </div>
@@ -240,8 +241,10 @@
         }
     }
 
-    private async Task ObtenerVentasPendientes()
+    private async Task ObtenerVentasPendientes(ChangeEventArgs arg)
     {
+        Cobro.ClienteId = int.Parse(arg.Value.ToString());
+
         if (Cobro.CobroId == 0)
             Cobro.Detalle = await ventasBLL.GetVentasPendientes(Cobro.ClienteId);
     }
