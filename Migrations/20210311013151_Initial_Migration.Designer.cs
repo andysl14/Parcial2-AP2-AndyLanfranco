@@ -9,7 +9,7 @@ using Parcial2_AP2_AndyLanfranco.DAL;
 namespace Parcial2_AP2_AndyLanfranco.Migrations
 {
     [DbContext(typeof(Contexto))]
-    [Migration("20210311005518_Initial_Migration")]
+    [Migration("20210311013151_Initial_Migration")]
     partial class Initial_Migration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -193,7 +193,7 @@ namespace Parcial2_AP2_AndyLanfranco.Migrations
             modelBuilder.Entity("Parcial2_AP2_AndyLanfranco.Models.CobrosDetalle", b =>
                 {
                     b.HasOne("Parcial2_AP2_AndyLanfranco.Models.Cobros", "Cobro")
-                        .WithMany("CobrosDetalle")
+                        .WithMany("Detalle")
                         .HasForeignKey("CobroId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -223,7 +223,7 @@ namespace Parcial2_AP2_AndyLanfranco.Migrations
 
             modelBuilder.Entity("Parcial2_AP2_AndyLanfranco.Models.Cobros", b =>
                 {
-                    b.Navigation("CobrosDetalle");
+                    b.Navigation("Detalle");
                 });
 
             modelBuilder.Entity("Parcial2_AP2_AndyLanfranco.Models.Ventas", b =>

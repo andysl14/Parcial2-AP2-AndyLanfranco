@@ -18,6 +18,24 @@ namespace Parcial2_AP2_AndyLanfranco.BLL
             this.Contexto = contexto;
         }
 
+        public async Task<Clientes> Buscar(int id)
+        {
+            Clientes persona;
+
+            try
+            {
+                //where(p => p.PersonaId==Id).AsNoTracking.FirstOrDefaultAsync();
+                persona = await Contexto.Clientes.FindAsync(id);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+            return persona;
+        }
+
         public async Task<List<Clientes>> GetClientes()
         {
             List<Clientes> lista = new List<Clientes>();
@@ -40,7 +58,7 @@ namespace Parcial2_AP2_AndyLanfranco.BLL
 
             try
             {
-                lista = await Contexto.Clientes.Where(criterio).ToListAsync();
+                lista = await Contexto.Clientes.Where(criterio).Include(c => c.Venta).ToListAsync();
             }
             catch(Exception)
             {

@@ -70,7 +70,7 @@
                                     </tr>
                                 </thead>
                                 <tbody style="background-color: white;">
-                                    @foreach (var item in Cobro.CobrosDetalle)
+                                    @foreach (var item in Cobro.Detalle)
                                     {
                                         <tr>
                                             <td>@item.VentaId</td>
@@ -90,7 +90,7 @@
                         <div class="form-group col-6">
                             <label>Totales</label>
                             &nbsp;
-                            <span class="form-control">@Cobro.CobrosDetalle.Count()</span>
+                            <span class="form-control">@Cobro.Detalle.Count()</span>
                         </div>
 
                         <div class="form-group col-6">
@@ -125,15 +125,25 @@
 
     [Parameter]
     public int CobroId { get; set; }
-    private Cobros Cobro = new Cobros();
+    private Cobros Cobro = new Cobros() { Detalle = new List<CobrosDetalle>()};
     List<Clientes> lista = new List<Clientes>();
+
 
     [Inject]
     private VentasBLL ventasBLL { get; set; }
+
+    [Inject]
     private CobrosBLL cobrosBLL { get; set; }
 
     [Inject]
     private ClientesBLL clientesBLL { get; set; }
+
+    List<dynamic> DetalleDTO = new List<dynamic>();
+    private CobrosDetalle detalle = new CobrosDetalle();
+    private Ventas venta = new Ventas();
+
+
+
 
     protected override async void OnInitialized()
     {
@@ -150,7 +160,7 @@
 
             if (cobrar != null)
             {
-                cobrar.CobrosDetalle = await ventasBLL.GetVentasCobradas(cobrar.ClienteId);
+                cobrar.Detalle = await ventasBLL.GetVentasCobradas(cobrar.ClienteId);
                 this.Cobro = cobrar;
 
             }
@@ -173,7 +183,7 @@
 
         if (cobro != null)
         {
-            cobro.CobrosDetalle = await ventasBLL.GetVentasCobradas(cobro.ClienteId);
+            cobro.Detalle = await ventasBLL.GetVentasCobradas(cobro.ClienteId);
             this.Cobro = cobro;
         }
         else
@@ -184,7 +194,7 @@
     private async void Guardar()
     {
         Cobro.CobroId = this.CobroId;
-        Cobro.CobrosDetalle.RemoveAll(d => d.Cobrado == 0);
+        Cobro.Detalle.RemoveAll(d => d.Cobrado == 0);
 
         if(await cobrosBLL.Guardar(Cobro))
         {
@@ -212,10 +222,30 @@
 
     private void Limpiar()
     {
-        Cobro = new Cobros();
+        Cobro = new Cobros() { Detalle = new List<CobrosDetalle>() };
         this.CobroId = 0;
         Cobro.Fecha = DateTime.Now;
     }
+
+    private async void SourceDTO(List<CobrosDetalle> detalle)
+    {
+        foreach (var item in detalle)
+        {
+            var ventas = await ventasBLL.Buscar(item.CobroId);
+
+            var dto = new
+            {
+                item.VentaId,
+                ventas.Fecha,
+                ventas.Monto,
+                ventas.Balance,
+                item.Cobrado
+            };
+
+            DetalleDTO.Add(dto);
+        }
+    }
+
 
     private void Cobrar(CobrosDetalle cobrosDetalle)
     {
@@ -234,7 +264,7 @@
     private async Task ObtenerVentasPendientes()
     {
         if (Cobro.CobroId == 0)
-            Cobro.CobrosDetalle = await ventasBLL.GetVentasPendientes(Cobro.ClienteId);
+            Cobro.Detalle = await ventasBLL.GetVentasPendientes(Cobro.ClienteId);
     }
 
 

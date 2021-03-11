@@ -29,7 +29,7 @@ namespace Parcial2_AP2_AndyLanfranco.BLL
 
             try
             {
-                foreach(var item in cobro.CobrosDetalle)
+                foreach(var item in cobro.Detalle)
                 {
                     item.Venta = await Contexto.Ventas.FindAsync(item.VentaId);
                     item.Venta.Balance -= item.Cobrado;
@@ -55,7 +55,7 @@ namespace Parcial2_AP2_AndyLanfranco.BLL
             {
                 cobro = await Contexto.Cobros
                     .Where(e => e.CobroId == id)
-                    .Include(e => e.CobrosDetalle)
+                    .Include(e => e.Detalle)
                     .FirstOrDefaultAsync();
             }
             catch (Exception)

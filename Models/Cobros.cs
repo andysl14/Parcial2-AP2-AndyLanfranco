@@ -20,7 +20,7 @@ namespace Parcial2_AP2_AndyLanfranco.Models
         public virtual Clientes Cliente { get; set; }
 
         [ForeignKey("CobroId")]
-        public virtual List<CobrosDetalle> CobrosDetalle { get; set; }
+        public virtual List<CobrosDetalle> Detalle { get; set; }
 
 
     }

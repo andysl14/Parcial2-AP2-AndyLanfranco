@@ -191,7 +191,7 @@ namespace Parcial2_AP2_AndyLanfranco.Migrations
             modelBuilder.Entity("Parcial2_AP2_AndyLanfranco.Models.CobrosDetalle", b =>
                 {
                     b.HasOne("Parcial2_AP2_AndyLanfranco.Models.Cobros", "Cobro")
-                        .WithMany("CobrosDetalle")
+                        .WithMany("Detalle")
                         .HasForeignKey("CobroId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -221,7 +221,7 @@ namespace Parcial2_AP2_AndyLanfranco.Migrations
 
             modelBuilder.Entity("Parcial2_AP2_AndyLanfranco.Models.Cobros", b =>
                 {
-                    b.Navigation("CobrosDetalle");
+                    b.Navigation("Detalle");
                 });
 
             modelBuilder.Entity("Parcial2_AP2_AndyLanfranco.Models.Ventas", b =>

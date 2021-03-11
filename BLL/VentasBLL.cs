@@ -18,6 +18,27 @@ namespace Parcial2_AP2_AndyLanfranco.BLL
             this.Contexto = contexto;
         }
 
+        public async Task<Ventas> Buscar(int id)
+        {
+            Ventas venta;
+            
+            try
+            {
+                venta = await Contexto.Ventas
+                    .Where(v => v.VentaId == id)
+                    .Include(d => d.CobrosDetalle)
+                    .AsNoTracking()
+                    .SingleOrDefaultAsync();
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            
+            return venta;
+        }
+
         public async Task<List<Ventas>> GetList(Expression<Func<Ventas, bool>> criterio)
         {
             List<Ventas> lista = new List<Ventas>();
