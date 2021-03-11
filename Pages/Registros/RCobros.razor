@@ -5,26 +5,175 @@
 @inject IToastService Toast
 
 <EditForm Model="Cobro" OnValidSubmit="Guardar">
-    <DataAnnotationsValidator/>
+    <DataAnnotationsValidator />
 
     <div class="card">
         <div class="container">
             <div class="card-header">
-                <h3>Registro de Cobro</h3>
+                <h3>Registro cobro</h3>
             </div>
 
             <div class="card-body">
                 <form>
-                    <div class="form-group form-inline">
 
+                    @*Primera parte*@
+                    <div class="form-group form-inline">
+                        <div class="form-group col-6">
+                            <label> Cobro Id </label>
+                            &nbsp;
+                            <div class="input-group">
+                                <InputNumber @bind-Value="Cobro.CobroId" class="form-control col-6" />
+                                <div class="input-group-append">
+                                    <button type="button" class="btn btn-secondary input-group-text oi oi-magnifying-glass" @onclick="Buscar">Buscar</button>
+                                </div>
+                                <ValidationMessage For="@(() => Cobro.CobroId)" />
+                            </div>
+                        </div>
+
+                        <div class="form-group col-6">
+                            <label>Fecha</label>
+                            &nbsp;
+                            <div class="input-group">
+                                <InputDate @bind-Value="Cobro.Fecha" class="form-control" />
+                                <ValidationMessage For="@(() => Cobro.Fecha)" />
+                            </div>
+                        </div>
                     </div>
+
+                    <div class="form-group">
+                        <label>Cliente ID</label>
+                        <select @bind="Cobro.ClienteId" class="form-control" @onblur="ObtenerVentasPendientes">
+                            <option value="0" disabled selected>Seleccione un cliente</option>
+                            @foreach (var item in ClienteList)
+                            {
+                                <option value="@item.ClienteId">@item.Nombres</option>
+                            }
+                        </select>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Facturas Pendientes</label>
+
+                        <div class="table-responsive text-nowrap" style="position: relative; height:200px; overflow: auto; display: block;">
+                            <table class="table table-striped">
+                                <thead style="background-color: gray;">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Fecha</th>
+                                        <th>Monto</th>
+                                        <th>Balance</th>
+                                        <th>Cobrado</th>
+                                        <th>Pagar</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody style="background-color: white;">
+                                    @foreach (var item in Cobro.CobrosDetalle)
+                                    {
+                                        <tr>
+                                            <td>@item.VentaId</td>
+                                            <td>@item.Venta.Fecha.ToString("dd/MM/yyyy")</td>
+                                            <td>@item.Venta.Monto.ToString("N2")</td>
+                                            <td>@item.Venta.Balance.ToString("N2")</td>
+                                            <td>@item.Cobrado.ToString("N2")</td>
+                                            <td> <input type="checkbox" @onchange="@(() => Cobrar(item))" /> </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class=" form-group form-inline">
+                        <div class="form-group col-6">
+                            <label>Totales</label>
+                            &nbsp;
+                            <span class="form-control">@Cobro.CobrosDetalle.Count()</span>
+                        </div>
+
+                        <div class="form-group col-6">
+                            <label>Total cobrado</label>
+                            &nbsp;
+                            <InputNumber @bind-Value="Cobro.TotalCobrado" class="form-control" readOnly="true" />
+                            <ValidationMessage For="@(() => Cobro.TotalCobrado)" />
+                        </div>
+                    </div>
+
+                    <div class="form-group ">
+                        <label>Observaciones</label>
+                        <textarea @bind="Cobro.Observaciones" class="form-control" row="5" placeholder="Observaciones" />
+                    </div>
+
+
                 </form>
+            </div>
+            <div class="card-footer">
+                <div class="form-group text-center" display: inline-block>
+                    <button type="button" class="btn btn-lg btn-primary oi oi-file" @onclick="Nuevo">Nuevo</button>
+                    <button type="submit" name="Guardado" class="btn btn-lg btn-success oi oi-cloud-upload">Guardar</button>
+                    <button type="button" class="btn btn-lg btn-danger oi oi-trash" @onclick="Eliminar">Eliminar</button>
+                </div>
             </div>
         </div>
     </div>
-
 </EditForm>
 
+
 @code {
+
+    [Parameter]
+    public int CobroId { get; set; }
+    private Cobros Cobro = new Cobros();
+
+    [Inject]
+    private VentasBLL ventasBLL { get; set; }
+    private CobrosBLL cobrosBLL { get; set; }
+
+    protected override async void OnInitialized()
+    {
+        Nuevo();
+        await BuscarParametro();
+    }
+
+    private async Task BuscarParametro()
+    {
+        if(CobroId > 0)
+        {
+            var cobro = cobrosBLL.Buscar(CobroId);
+
+            if (cobro != null)
+            {
+                Cobro.CobrosDetalle = await ventasBLL.GetVentasCobradas(Cobro.ClienteId);
+                this.Cobro = cobro;
+            }
+            else
+            {
+                Toast.ShowError("El cobro no existe");
+            }
+        }
+    }
+
+    private void Nuevo()
+    {
+
+    }
+
+    private void Buscar()
+    {
+
+    }
+
+    private void Guardar()
+    {
+
+    }
+
+    private void Eliminar()
+    {
+
+    }
+
+    
 
 }

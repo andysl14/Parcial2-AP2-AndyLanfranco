@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Parcial2_AP2_AndyLanfranco.BLL;
 using Parcial2_AP2_AndyLanfranco.DAL;
 using Parcial2_AP2_AndyLanfranco.Data;
 using System;
@@ -33,6 +34,12 @@ namespace Parcial2_AP2_AndyLanfranco
             services.AddSingleton<WeatherForecastService>();
             services.AddDbContext<Contexto>(options =>
                 options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+
+            //Inyeccion de las BLL
+
+            services.AddTransient<ClientesBLL>();
+            services.AddTransient<VentasBLL>();
+            services.AddTransient<CobrosBLL>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
