@@ -24,7 +24,6 @@ namespace Parcial2_AP2_AndyLanfranco.BLL
 
             try
             {
-                //where(p => p.PersonaId==Id).AsNoTracking.FirstOrDefaultAsync();
                 persona = await Contexto.Clientes.FindAsync(id);
             }
             catch (Exception)
