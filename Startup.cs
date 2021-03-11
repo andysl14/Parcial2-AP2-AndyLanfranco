@@ -1,3 +1,4 @@
+using Blazored.Toast;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Hosting;
@@ -31,6 +32,7 @@ namespace Parcial2_AP2_AndyLanfranco
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
+            services.AddBlazoredToast();
             services.AddSingleton<WeatherForecastService>();
             services.AddDbContext<Contexto>(options =>
                 options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
