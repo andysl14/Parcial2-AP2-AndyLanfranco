@@ -138,8 +138,6 @@
     [Inject]
     private ClientesBLL clientesBLL { get; set; }
 
-    List<dynamic> DetalleDTO = new List<dynamic>();
-    private CobrosDetalle detalle = new CobrosDetalle();
     private Ventas venta = new Ventas();
 
 
@@ -225,25 +223,6 @@
         Cobro = new Cobros() { Detalle = new List<CobrosDetalle>() };
         this.CobroId = 0;
         Cobro.Fecha = DateTime.Now;
-    }
-
-    private async void SourceDTO(List<CobrosDetalle> detalle)
-    {
-        foreach (var item in detalle)
-        {
-            var ventas = await ventasBLL.Buscar(item.CobroId);
-
-            var dto = new
-            {
-                item.VentaId,
-                ventas.Fecha,
-                ventas.Monto,
-                ventas.Balance,
-                item.Cobrado
-            };
-
-            DetalleDTO.Add(dto);
-        }
     }
 
 

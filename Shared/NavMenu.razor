@@ -29,6 +29,23 @@
 
                 </ul>
             }
+        </li>
+
+        <li class="nav-item px-3 dropdown show">
+            <NavLink class="nav-link dropdown-toggle" href="" @onclick="() => expandSubMenu = !expandSubMenu ">
+                <span class="oi oi-list" aria-hidden="true"></span> Consultas
+            </NavLink>
+
+            @if (expandSubMenu)
+            {
+                <ul class="nav flex-column">
+                    <li class="nav-item px-2">
+                        <NavLink class="nav-link" href="CVentas">
+                            <span class=" oi oi-list px-2" aria-hidden="true"></span> Consultar Ventas
+                        </NavLink>
+                    </li>
+                </ul>
+            }
 
         </li>
 
